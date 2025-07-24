@@ -215,7 +215,7 @@ class StringArtGenerator:
         resized_img = img.resize((self.width, self.height), Image.LANCZOS)
         self.src_img_data = np.array(resized_img, dtype=np.float32)
         self.curr_img_data = np.full_like(
-            self.src_img_data, [255, 255, 255, 255], dtype=np.float32
+            self.src_img_data, [128, 128, 128, 255], dtype=np.float32
         )
 
     # Initializes the cache by computing all the possible lines and storing the pixels they pass through
@@ -253,7 +253,7 @@ class StringArtGenerator:
             self.dwg.rect(
                 insert=(-self.width / 2, -self.height / 2),
                 size=(self.width, self.height),
-                fill="white",
+                fill="grey",
             )
         )
 
@@ -318,6 +318,16 @@ class StringArtGenerator:
                 print("xdg-open not found. Please open the SVG file manually.")
         else:
             print(f"Error: Could not find generated file '{self.output_svg}'")
+        
+        # Delete the input image file
+        if os.path.exists(self.input_image):
+            try:
+                os.remove(self.input_image)
+                print(f"Deleted input image: '{self.input_image}'")
+            except OSError as e:
+                print(f"Warning: Could not delete input image '{self.input_image}': {e}")
+        else:
+            print(f"Warning: Input image '{self.input_image}' not found for deletion")
 
 
 class Thread:
@@ -395,8 +405,8 @@ def main():
     parser.add_argument(
         "--colors",
         type=str,
-        default="000000",
-        help="Comma-separated hex codes for thread colors (e.g., 'FF0000,00FF00'). Default is black only for monochrome output.",
+        default="FFFFFF,000000,FF0000,00FF00,0000FF,FFFF00,00FFFF,FF00FF",
+        help="Comma-separated hex codes for thread colors (e.g., 'FF0000,00FF00').",
     )
     parser.add_argument(
         "--downscale_factor",
