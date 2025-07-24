@@ -318,6 +318,16 @@ class StringArtGenerator:
                 print("xdg-open not found. Please open the SVG file manually.")
         else:
             print(f"Error: Could not find generated file '{self.output_svg}'")
+        
+        # Delete the input image file
+        if os.path.exists(self.input_image):
+            try:
+                os.remove(self.input_image)
+                print(f"Deleted input image: '{self.input_image}'")
+            except OSError as e:
+                print(f"Warning: Could not delete input image '{self.input_image}': {e}")
+        else:
+            print(f"Warning: Input image '{self.input_image}' not found for deletion")
 
 
 class Thread:
