@@ -191,7 +191,7 @@ class StringArtGenerator:
         )
         return Point(x, y)
 
-    # Loads the image and resizes it.
+    # Loads the image, crops it to a centered square, and resizes it.
     def _load_img(self):
         try:
             img = Image.open(self.input_image).convert("RGBA")
@@ -199,10 +199,19 @@ class StringArtGenerator:
             print(f"Error: Input image not found at '{self.input_image}'")
             sys.exit(1)
 
+        # Crop to centered square
+        width, height = img.size
+        size = min(width, height)
+        left = (width - size) // 2
+        top = (height - size) // 2
+        right = left + size
+        bottom = top + size
+        img = img.crop((left, top, right, bottom))
+        print(f"Cropped image to {size}x{size} square")
+
         max_res = (self.radius * 2 / self.thread_diam) / self.downscale_factor
-        img_ar = img.width / img.height
         self.width = int(max_res)
-        self.height = int(max_res / img_ar) if img_ar > 0 else int(max_res)
+        self.height = int(max_res)  # Square image means width == height
         resized_img = img.resize((self.width, self.height), Image.LANCZOS)
         self.src_img_data = np.array(resized_img, dtype=np.float32)
         self.curr_img_data = np.full_like(
@@ -288,11 +297,27 @@ class StringArtGenerator:
         manim_seq.close()
         self._finalize_and_save()
 
-    # Simply save the svg file.
+    # Simply save the svg file and open it.
     def _finalize_and_save(self):
         print(f"Saving SVG to '{self.output_svg}'...")
         self.dwg.save()
         print("Done.")
+        
+        # Open the SVG file
+        import subprocess
+        import os
+        
+        if os.path.exists(self.output_svg):
+            try:
+                # Try to open with default application
+                subprocess.run(['xdg-open', self.output_svg], check=True)
+                print(f"Opened '{self.output_svg}' with default application.")
+            except subprocess.CalledProcessError:
+                print(f"Could not open '{self.output_svg}' automatically. Please open it manually.")
+            except FileNotFoundError:
+                print("xdg-open not found. Please open the SVG file manually.")
+        else:
+            print(f"Error: Could not find generated file '{self.output_svg}'")
 
 
 class Thread:
