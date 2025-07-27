@@ -2,6 +2,7 @@
 This script creates colorful string art from any image using a greedy algorithm to find the best possible line at each step.
 
 <img width="637" height="635" alt="image" src="https://github.com/user-attachments/assets/9d470d01-4a24-4b24-9d51-8c3555381612" />
+
 ## Working
 ### Algortihm
 The script creates multiple threads each with a color from a palette defined by the user (or the default one), with each thread starting from a nail. At each step an exhaustive search for the best possible line is done to any other nail. For each of these lines an error score is generated that measures how much would the specific line contribute to the overall resemblance of the art to the target image.
