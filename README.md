@@ -27,7 +27,7 @@ A sample command to run the script is as follows
 ```
 python color.py --input_image input.png --output_svg output.svg --max_lines 20000 --nails_side 40
 ```
-You can experiment with the max_lines and nails_side arguments. The script scales linearly with the number of colors supplied, and the number of threads to be drawn. As for the growth with respect to the number of nails, for the cache initialization, if we have $n$ nails then $^n_2 C$ total possible pairs of nails, we would have had, which is approximately $n^2$. But here num_nails is the number of nails per side, so the growth is quartic, i.e. $n^4$ since number of nails = $n*n$. As for the main loop, it scales quadratically, i.e. with the total number of nails on the canvas.
+You can experiment with the `max_lines` and `nails_side` arguments. The script scales linearly with the number of colors supplied, and the number of threads to be drawn. As for the growth with respect to the number of nails, for the cache initialization, if we have $n$ nails then $^n_2 C$ total possible pairs of nails, we would have had, which is approximately $n^2$. But here `num_nails` is the number of nails per side, so the growth is quartic, i.e. $n^4$ since number of nails = $n*n$. As for the main loop, it scales quadratically, i.e. with the total number of nails on the canvas.
 
 The script accepts the following arguments, only the first one (`input_image`) is required, rest are all optional. 
 - `--input_image`: Path to the image file you want to process.
