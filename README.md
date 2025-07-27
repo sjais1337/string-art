@@ -35,3 +35,7 @@ The script accepts the following arguments, only the first one (`input_image`) i
 - `--nails_side`: The number of nails per side of the square grid.
 - `--max_lines`: The total number of string lines to draw.
 - `--colors`: A comma-separated list of hex color codes (e.g., FF0000,00FF00,0000FF) to use for the threads.
+
+
+## Future Goals
+The present implementation uses greedy algorithms to do this job. However this is quite obviously not the most optimal solution to this kind of problem. CT-Scanners use a similar type of construction. A typical CT-Scanner takes scans from multiple angles and then combines them at the end to produce a complete CT-Scan, which is just a culmination of multiple X-rays. Our problem is simply the inverse of this. Judging simply by the time complexity, it appears that using a FFT based approach would be much faster at producing more detailed images, and the following [research paper](https://pubmed.ncbi.nlm.nih.gov/25080112/#:~:text=The%20GFST%20method%20can%20be,to%20Cartesian%20coordinates%20in%20the) can be instrumental in implementing the approach. But the question of whether such a approach is actually faster or not is a bit tough to answer without implementing myself, since it is riddled with implementation issues, but one thing is clear the initial step will be the most time taking for this approach as well. 
