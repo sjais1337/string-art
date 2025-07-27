@@ -1,5 +1,6 @@
 # Greedy String Art Generator
 This script creates colorful string art from any image using a greedy algorithm to find the best possible line at each step.
+
 <img width="637" height="635" alt="image" src="https://github.com/user-attachments/assets/9d470d01-4a24-4b24-9d51-8c3555381612" />
 ## Working
 ### Algortihm
